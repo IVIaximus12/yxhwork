@@ -2,19 +2,20 @@ package com.example.yandex_hwork.screens
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.yandex_hwork.MaybeTask
 import com.example.yandex_hwork.R
 
-class TodoFragment: Fragment(R.layout.fragment_todo) {
+class TodoItemFragment: Fragment(R.layout.fragment_todo_item) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.todoButton).setOnClickListener() {
+        view.findViewById<ImageButton>(R.id.closeButton).setOnClickListener() {
             exampleNewTask()
             findNavController().popBackStack()
         }

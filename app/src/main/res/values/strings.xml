@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Yandex Open Lecture - Homework</string>
+    <string name="saveButtonText">СОХРАНИТЬ</string>
+    <string name="todoTextHint">Что надо сделать...</string>
+    <string name="importantText">Важность</string>
+    <string name="importantTextChooseNo">Нет</string>
+    <string name="whenText">Сделать до</string>
+    <string name="deleteText">Удалить</string>
 </resources>

@@ -21,9 +21,9 @@ class TodoListFragment: Fragment(R.layout.fragment_todo_list) {
     }
 
     private fun gettingTodo(view: View) {
-        parentFragmentManager.setFragmentResultListener(TodoFragment.REQUEST_CODE, viewLifecycleOwner) {
+        parentFragmentManager.setFragmentResultListener(TodoItemFragment.REQUEST_CODE, viewLifecycleOwner) {
                 key, data ->
-            val newTask = data.getParcelable<MaybeTask>(TodoFragment.NEW_TASK)
+            val newTask = data.getParcelable<MaybeTask>(TodoItemFragment.NEW_TASK)
             // закидываем новую задачу
             if (newTask != null) {
                 view.findViewById<Button>(R.id.listButton).text = newTask.taskText
