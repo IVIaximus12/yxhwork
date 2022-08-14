@@ -29,12 +29,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/saveButton"
+            android:id="@+id/saveButtonText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/saveButtonText"
-            android:textColor="@color/color_blue"
+            android:textColor="@drawable/custom_save_text_color"
             android:textStyle="bold"
+            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +45,8 @@
     <ScrollView
         android:id="@+id/scrollTodo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/closeAndSaveGroup">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -123,10 +125,9 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/dataText"
+                android:id="@+id/dateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2 июня 2021"
                 android:textColor="@color/color_blue"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/whenText" />
@@ -151,17 +152,19 @@
         app:layout_constraintTop_toBottomOf="@+id/infoViewGroup" />
 
         <TextView
-            android:id="@+id/deleteText"
-            android:layout_width="match_parent"
+            android:id="@+id/deleteButtonText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_margin="20dp"
             android:gravity="center_vertical"
             android:textSize="17sp"
-            android:textColor="@color/color_red"
+            android:textColor="@drawable/custom_delete_text_color"
             android:text="@string/deleteText"
             app:drawableStartCompat="@drawable/custom_delete_icon"
             android:drawablePadding="15dp"
+            android:enabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/secondDivider"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

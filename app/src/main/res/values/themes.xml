@@ -13,7 +13,7 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/back_primary</item>
-        <item name="android:textColor">@color/label_primary</item>
+        <item name="android:textColor">@color/color_blue</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>
