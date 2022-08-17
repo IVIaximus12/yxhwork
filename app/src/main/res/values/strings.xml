@@ -6,4 +6,6 @@
     <string name="importantTextChooseNo">Нет</string>
     <string name="whenText">Сделать до</string>
     <string name="deleteText">Удалить</string>
+
+    <string name="someTodoText">Тот редкий случай, когда в Kotlin ключевое слово enum используется до ключевого слова class. В Kotlin enum относится к разряду мягких ключевых слов (soft keyword), которое является ключевым только перед ключевым словом class. В других случаях вы можете использовать его свободно как простое имя переменной.</string>
 </resources>
