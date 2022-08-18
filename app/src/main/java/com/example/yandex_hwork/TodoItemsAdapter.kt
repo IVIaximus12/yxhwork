@@ -54,7 +54,7 @@ class TodoItemsAdapter(
         val todoItem = v.tag as TodoItem
         when (v.id) {
             R.id.checkBoxTodoItem -> {
-
+                actionListener.onTodoItemChecked(todoItem)
             }
             else -> {
                 actionListener.onTodoItemChange(todoItem)

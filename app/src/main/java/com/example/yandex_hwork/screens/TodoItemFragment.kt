@@ -5,16 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.Switch
 import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.yandex_hwork.DateService
-import com.example.yandex_hwork.MaybeTask
-import com.example.yandex_hwork.R
+import com.example.yandex_hwork.*
 import com.example.yandex_hwork.model.Date
 import com.example.yandex_hwork.model.Importance
 import com.example.yandex_hwork.model.TodoItem
@@ -23,7 +21,7 @@ class TodoItemFragment: Fragment(R.layout.fragment_todo_item) {
 
     private lateinit var datePickerDialog: DatePickerDialog
     private lateinit var closeButton: ImageButton
-    private lateinit var dateSwitch: Switch
+    private lateinit var dateSwitch: SwitchCompat
     private lateinit var todoText: EditText
     private lateinit var dateText: TextView
     private lateinit var whenText: TextView
@@ -31,19 +29,28 @@ class TodoItemFragment: Fragment(R.layout.fragment_todo_item) {
     private lateinit var importantChooseText: TextView
     private lateinit var deleteButtonText: TextView
 
+    private lateinit var todoItem: TodoItem
+    private lateinit var originalTodoItem: TodoItem
+
+    private val todoItemsRepository: TodoItemsRepository
+        get() = (activity?.applicationContext as App).todoItemsRepository
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        originalTodoItem  = todoItemsRepository.getCurrentItem()
+        todoItem = originalTodoItem.copy()
+
+
         initViews(view)
+        initContent()
         initListeners()
         initDatePicker()
-        initWithData()
     }
 
-    private fun initWithData() {
-        var todoItem = someData()
+    private fun initContent() {
 
-        deleteButtonText.isEnabled = true
+        deleteButtonText.isEnabled = todoItem.id != "-1"
 
         todoText.setText(todoItem.text)
 
@@ -62,23 +69,17 @@ class TodoItemFragment: Fragment(R.layout.fragment_todo_item) {
             }
         }
 
-
-        val realMonth = todoItem.deadline.month + 1
-        val date = "${todoItem.deadline.dayOfMonth}/$realMonth/${todoItem.deadline.year}"
-        dateText.text = date
-        dateSwitch.isChecked = true
+        initDateContent()
     }
 
-    // хардкод задачи
-    private fun someData() = TodoItem(
-            "1234567",
-            getString(R.string.someTodoText),
-            Importance.High,
-            DateService.getCurrentDate(),
-            false,
-            DateService.getCurrentDate(),
-            DateService.getCurrentDate()
-        )
+    private fun initDateContent() {
+        if (todoItem.deadline.month != -1) {
+            val realMonth = todoItem.deadline.month + 1
+            val date = "${todoItem.deadline.dayOfMonth}/$realMonth/${todoItem.deadline.year}"
+            dateText.text = date
+            dateSwitch.isChecked = true
+        } else dateSwitch.isChecked = false
+    }
 
     private fun initViews(view: View) {
         dateText = view.findViewById(R.id.dateText)
@@ -92,23 +93,51 @@ class TodoItemFragment: Fragment(R.layout.fragment_todo_item) {
     }
 
     private fun initListeners() {
-        closeButton.setOnClickListener() {
-            exampleNewTask()
+        closeButton.setOnClickListener {
+            if (originalTodoItem.text.isEmpty()) todoItemsRepository.deleteTodoItem(todoItem)
             findNavController().popBackStack()
         }
 
-        saveButtonText.setOnClickListener() {
-            exampleNewTask()
+        saveButtonText.setOnClickListener {
+            todoItem.id = todoItemsRepository.getNextId()
+            todoItemsRepository.editTodoItem(todoItem)
+            findNavController().popBackStack()
+        }
+
+        deleteButtonText.setOnClickListener {
+            todoItemsRepository.deleteTodoItem(todoItem)
             findNavController().popBackStack()
         }
 
         todoText.doAfterTextChanged { text ->
-            saveButtonText.isEnabled = !text.isNullOrEmpty()
+            todoItem.text = text.toString()
+            readyToSave()
         }
 
-        dateText.setOnClickListener() {
+        dateText.setOnClickListener {
             datePickerDialog.show()
         }
+
+        dateSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked) {
+                dateText.visibility = View.VISIBLE
+
+                if (originalTodoItem.deadline.year != -1) {
+                    todoItem.deadline = originalTodoItem.deadline
+                } else todoItem.deadline = DateService.getCurrentDate()
+
+                dateText.text = DateService.getString(todoItem.deadline)
+                readyToSave()
+            } else {
+                dateText.visibility = View.INVISIBLE
+                todoItem.deadline = Date(-1,-1,-1)
+                readyToSave()
+            }
+        }
+    }
+
+    private fun readyToSave() {
+        saveButtonText.isEnabled = originalTodoItem != todoItem && todoItem.text.isNotEmpty()
     }
 
     private fun initDatePicker() {
@@ -117,6 +146,8 @@ class TodoItemFragment: Fragment(R.layout.fragment_todo_item) {
             val realMonth = month + 1
             val date = "$dayOfMonth/$realMonth/$year"
             dateText.text = date
+            todoItem.deadline = Date(year, month, dayOfMonth)
+            readyToSave()
         }
 
         val currentDate = DateService.getCurrentDate()
@@ -138,5 +169,8 @@ class TodoItemFragment: Fragment(R.layout.fragment_todo_item) {
     companion object {
         const val REQUEST_CODE = "NEW_TASK_REQUEST_CODE"
         const val NEW_TASK = "NEW_TASK"
+
+        const val NEW_ITEM_REQUEST_CODE = "NEW_ITEM_REQUEST_CODE"
+        const val SAVE_ITEM_REQUEST_CODE = "SAVE_ITEM_REQUEST_CODE"
     }
 }

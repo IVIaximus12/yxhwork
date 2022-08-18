@@ -13,5 +13,6 @@ class DateService {
             val day = calendar.get(Calendar.DAY_OF_MONTH)
             return Date(year, month, day)
         }
+        fun getString(date: Date) = "${date.dayOfMonth}/${date.month + 1}/${date.year}"
     }
 }
