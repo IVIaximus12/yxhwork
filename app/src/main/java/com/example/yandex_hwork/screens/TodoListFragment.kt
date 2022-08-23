@@ -46,7 +46,7 @@ class TodoListFragment: Fragment(R.layout.fragment_todo_list) {
 
             override fun onTodoItemChange(todoItem: TodoItem) {
                 todoItemsRepository.setCurrentItem(todoItem)
-                parentFragmentManager.setFragmentResult(NEW_TODO_ITEM_REQUEST, bundleOf())
+                //parentFragmentManager.setFragmentResult(NEW_TODO_ITEM_REQUEST, bundleOf())
                 findNavController().navigate(R.id.action_todoListFragment_to_todoFragment)
             }
 
@@ -58,24 +58,6 @@ class TodoListFragment: Fragment(R.layout.fragment_todo_list) {
     }
 
     companion object {
-        const val CHANGE_TODO_ITEM_REQUEST = "CHANGE_TODO_ITEM_REQUEST"
         const val NEW_TODO_ITEM_REQUEST = "NEW_TODO_ITEM_REQUEST"
-        const val NEW_TODO_ITEM = "NEW_TODO_ITEM"
     }
-
-    /*private fun gettingTodo(view: View) {
-
-        view.findViewById<Button>(R.id.listButton).setOnClickListener() {
-            findNavController().navigate(R.id.action_todoListFragment_to_todoFragment)
-        }
-
-        parentFragmentManager.setFragmentResultListener(TodoItemFragment.REQUEST_CODE, viewLifecycleOwner) {
-                key, data ->
-            val newTask = data.getParcelable<MaybeTask>(TodoItemFragment.NEW_TASK)
-            // закидываем новую задачу
-            if (newTask != null) {
-                view.findViewById<Button>(R.id.listButton).text = newTask.taskText
-            }
-        }
-    }*/
 }

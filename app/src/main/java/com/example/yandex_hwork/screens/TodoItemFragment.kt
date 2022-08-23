@@ -2,13 +2,14 @@ package com.example.yandex_hwork.screens
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -55,17 +56,14 @@ class TodoItemFragment: Fragment(R.layout.fragment_todo_item) {
         todoText.setText(todoItem.text)
 
         when (todoItem.importance) {
-            Importance.High -> {
-                importantChooseText.text = todoItem.importance.text
-                importantChooseText.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_red))
-            }
             Importance.Normal -> {
-                importantChooseText.text = todoItem.importance.text
-                importantChooseText.setTextColor(ContextCompat.getColor(requireContext(), R.color.label_tertiary))
+                setImportance(true)
             }
             Importance.Low -> {
-                importantChooseText.text = todoItem.importance.text
-                importantChooseText.setTextColor(ContextCompat.getColor(requireContext(), R.color.label_tertiary))
+                setImportance(true)
+            }
+            Importance.High -> {
+                setImportance(false)
             }
         }
 
@@ -118,6 +116,10 @@ class TodoItemFragment: Fragment(R.layout.fragment_todo_item) {
             datePickerDialog.show()
         }
 
+        importantChooseText.setOnClickListener {
+            showPopupMenu()
+        }
+
         dateSwitch.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked) {
                 dateText.visibility = View.VISIBLE
@@ -134,6 +136,35 @@ class TodoItemFragment: Fragment(R.layout.fragment_todo_item) {
                 readyToSave()
             }
         }
+    }
+
+    private fun showPopupMenu() {
+        val popupMenu = PopupMenu(context, importantChooseText)
+
+        popupMenu.menu.add(0, ID_POPUP_NORMAL, Menu.NONE, Importance.Normal.text)
+        popupMenu.menu.add(0, ID_POPUP_LOW, Menu.NONE, Importance.Low.text)
+        popupMenu.menu.add(0, ID_POPUP_HIGH, Menu.NONE, Importance.High.text)
+
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                ID_POPUP_NORMAL -> {
+                    todoItem.importance = Importance.Normal
+                    setImportance(true)
+                }
+                ID_POPUP_LOW -> {
+                    todoItem.importance = Importance.Low
+                    setImportance(true)
+                }
+                ID_POPUP_HIGH -> {
+                    todoItem.importance = Importance.High
+                    setImportance(false)
+                }
+            }
+            readyToSave()
+            return@setOnMenuItemClickListener true
+        }
+
+        popupMenu.show()
     }
 
     private fun readyToSave() {
@@ -160,17 +191,19 @@ class TodoItemFragment: Fragment(R.layout.fragment_todo_item) {
             currentDate.dayOfMonth)
     }
 
-    //Передача дела в список дел
-    private fun exampleNewTask() {
-        val task = MaybeTask("Какая-то новая задача", 123)
-        parentFragmentManager.setFragmentResult(REQUEST_CODE, bundleOf(NEW_TASK to task))
+    private fun setImportance(isNormalOrLow: Boolean) {
+        importantChooseText.text = todoItem.importance.text
+        importantChooseText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (isNormalOrLow) R.color.label_tertiary else R.color.color_red
+            )
+        )
     }
 
     companion object {
-        const val REQUEST_CODE = "NEW_TASK_REQUEST_CODE"
-        const val NEW_TASK = "NEW_TASK"
-
-        const val NEW_ITEM_REQUEST_CODE = "NEW_ITEM_REQUEST_CODE"
-        const val SAVE_ITEM_REQUEST_CODE = "SAVE_ITEM_REQUEST_CODE"
+        const val ID_POPUP_NORMAL = 1
+        const val ID_POPUP_LOW = 2
+        const val ID_POPUP_HIGH = 3
     }
 }
