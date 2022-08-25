@@ -41,27 +41,33 @@
         android:id="@+id/visibilityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_visibility_button"
+        android:src="@drawable/ic_visibility_button"
+        android:background="@null"
+        android:padding="12dp"
         android:layout_marginEnd="20dp"
         app:layout_constraintTop_toTopOf="@+id/completedText"
         app:layout_constraintBottom_toBottomOf="@+id/completedText"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginBottom="5dp"
-        android:elevation="4dp"
-        android:background="@drawable/custom_input"
-        app:layout_constraintTop_toBottomOf="@+id/completedText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:context="com.example.yandex_hwork.screens.TodoListFragment"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/visibilityButton">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_input"
+            android:elevation="4dp"
+            tools:context="com.example.yandex_hwork.screens.TodoListFragment" />
+
+    </RelativeLayout>
+    
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/newTodoItemBtn"
         android:layout_width="wrap_content"
