@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="15dp"
     android:background="?android:attr/selectableItemBackground">
 
     <CheckBox
@@ -20,11 +21,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:lines="3"
-        android:text="@string/someTodoText"
+        android:maxLines="3"
+        android:textColor="@color/label_primary"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/imageButton"
         app:layout_constraintStart_toEndOf="@+id/checkBoxTodoItem"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton

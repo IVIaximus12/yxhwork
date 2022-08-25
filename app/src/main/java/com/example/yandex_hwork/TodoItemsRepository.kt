@@ -8,7 +8,7 @@ class TodoItemsRepository {
 
     private var todoItems = mutableListOf<TodoItem>()
     private lateinit var currentItemId: String
-    private var lastId = 108
+    private var lastId = 110
 
     fun getTodoItems()  = todoItems
 
@@ -50,7 +50,7 @@ class TodoItemsRepository {
                 "Какая-то задача 2Какая-то задача 2Какая-то задача 2Какая-то задача 2Какая-то задача 2Какая-то задача 2",
                 Importance.High,
                 DateService.getCurrentDate(),
-                false,
+                true,
                 DateService.getCurrentDate(),
                 DateService.getCurrentDate())
         )
@@ -59,7 +59,7 @@ class TodoItemsRepository {
                 "Какая-то задача 3sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                 Importance.High,
                 Date(-1, -1, -1),
-                false,
+                true,
                 DateService.getCurrentDate(),
                 DateService.getCurrentDate())
         )
@@ -112,6 +112,33 @@ class TodoItemsRepository {
             TodoItem("108",
                 "Купить что-то? где-то, зачем-то, но зачем не очень понятно",
                 Importance.Low,
+                DateService.getCurrentDate(),
+                false,
+                DateService.getCurrentDate(),
+                DateService.getCurrentDate())
+        )
+        todoItems.add(
+            TodoItem("109",
+                "1)\tреализовать дата класс Дела (TodoItem)\n" +
+                        "2)\tреализовать класс-хранилище списка дел (TodoItemsRepository)\n" +
+                        "3)\tреализовать UI ячейки Дела\n" +
+                        "4)\tреализовать UI списка Дел\n" +
+                        "5)\tреализовать кнопку добавления дела\n" +
+                        "6)\tреализовать экран добавления/редактирования дела с обновлением данных\n",
+                Importance.Normal,
+                DateService.getCurrentDate(),
+                false,
+                DateService.getCurrentDate(),
+                DateService.getCurrentDate())
+        )
+        todoItems.add(
+            TodoItem("110",
+                "UI списка дел:\n" +
+                        "1)\tдолжен быть реализован через RecyclerView\n" +
+                        "2)\tв качестве ячеек должен выступать UI ячейки дела (из предыдущего пункта)\n" +
+                        "3)\tсписок должен быть вертикальным и занимать всю ширину и высоту экрана\n" +
+                        "4)\tпередать в adapter список дел из TodoItemsRepository и отобразить\n",
+                Importance.High,
                 DateService.getCurrentDate(),
                 false,
                 DateService.getCurrentDate(),
